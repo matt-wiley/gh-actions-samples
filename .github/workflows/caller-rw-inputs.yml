@@ -1,6 +1,8 @@
 name: Caller Reusable Workflow Input Examples
 
-on: workflow_dispatch
+on:
+  - workflow_dispatch
+  - push
     
 jobs:
   use-kvp:
