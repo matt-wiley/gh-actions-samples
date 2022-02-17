@@ -13,7 +13,7 @@ on:
         type: string
 
 jobs:
-  using-json-kvp:
+  json-kvp:
     runs-on: ubuntu-latest
     container: 
       image: mattwiley/ubuntu:latest
@@ -27,17 +27,37 @@ jobs:
         run: |
           echo ${{ toJSON(inputs.json-key-value-pairs) }} | jq
 
-  using-yaml-kvp:
+  json-via-yaml-kvp:
     runs-on: ubuntu-latest
     container:
       image: mattwiley/github_actions:python3.9-slim
       options: --user root
+    outputs:
+      kvps: ${{ steps.tx-to-json.outputs.kvp-as-json }}
     steps:
       - name: Setup
         run: pip install PyYaml
       - name: Print as JSON
+        id: tx-to-json
         shell: python
         run: |
           import json, yaml
-          print(json.dumps(yaml.load("${{ inputs.yaml-key-value-pairs }}", yaml.SafeLoader)))
+          print(f"set-output name=kvp-as-json::{ json.dumps(yaml.load("${{ inputs.json-key-value-pairs }}", yaml.SafeLoader)) }"
+
+  yaml-kvp:
+    runs-on: ubuntu-latest
+    container:
+      image: mattwiley/github_actions:python3.9-slim
+      options: --user root
+    outputs:
+      kvps: ${{ steps.tx-to-json.outputs.kvp-as-json }}
+    steps:
+      - name: Setup
+        run: pip install PyYaml
+      - name: Print as JSON
+        id: tx-to-json
+        shell: python
+        run: |
+          import json, yaml
+          print(f"set-output name=kvp-as-json::{ json.dumps(yaml.load("${{ inputs.yaml-key-value-pairs }}", yaml.SafeLoader)) }"
 
