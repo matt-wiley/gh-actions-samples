@@ -3,13 +3,17 @@ name: Reusable Workflow Input Examples
 on: 
   workflow_call:
     inputs:
-      key-value-pairs:
+      json-key-value-pairs:
         required: true
-        description: "Handling key value pairs."
+        description: "JSON formatted key value pairs."
+        type: string
+      yaml-key-value-pairs:
+        required: true
+        description: "YAML formatted key value pairs."
         type: string
 
 jobs:
-  using-key-value-pairs:
+  using-json-kvp:
     runs-on: ubuntu-latest
     container: 
       image: mattwiley/ubuntu:latest
@@ -19,6 +23,21 @@ jobs:
         run: |
           apt-get update
           apt-get install -yq --no-install-recommends jq
-      - name: "Transform KVP inputs"
+      - name: Print as JSON
         run: |
-          echo ${{ toJSON(inputs.key-value-pairs) }} | jq
+          echo ${{ toJSON(inputs.son-key-value-pairs) }} | jq
+
+  using-yaml-kvp:
+    runs-on: ubuntu-latest
+    container:
+      image: mattwiley/github_actions:python3.9-slim
+      options: --user root
+    steps:
+      - name: Setup
+        run: pip install PyYaml
+      - name: Print as JSON
+        shell: python
+        run: |
+          import json, yaml
+          print(json.dumps(yaml.load(${{ inputs.yaml-key-value-pairs }}, yaml.SafeLoader)))
+

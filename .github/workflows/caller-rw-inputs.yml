@@ -8,7 +8,9 @@ jobs:
   use-kvp:
     uses: ./.github/workflows/rw-inputs.yml
     with:
-      key-value-pairs: >
+      json-key-value-pairs: >
         { 
           "key1": "value1"
         }
+      yaml-key-value-pairs: >
+        key2: value2
