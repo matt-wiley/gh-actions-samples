@@ -41,7 +41,8 @@ jobs:
         id: tx-to-json
         shell: python
         run: |
-          import json, yaml
+          import json, yaml, re 
+          input=re.sub(r"\s+"," ", ${{ inputs.json-key-value-pairs }} ) 
           print("set-output name=kvp-as-json::" + json.dumps(yaml.load("${{ inputs.json-key-value-pairs }}", yaml.SafeLoader)))
 
   yaml-kvp:
