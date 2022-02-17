@@ -1,6 +1,6 @@
 name: Reusable Workflow Input Examples
 
-on: 
+on:
   workflow_call:
     inputs:
       json-key-value-pairs:
@@ -15,11 +15,11 @@ on:
 jobs:
   json-kvp:
     runs-on: ubuntu-latest
-    container: 
+    container:
       image: mattwiley/ubuntu:latest
       options: --user root
     steps:
-      - name: Setup 
+      - name: Setup
         run: |
           apt-get update
           apt-get install -yq --no-install-recommends jq
@@ -61,18 +61,20 @@ jobs:
         run: |
           import yaml, json
 
-          input_kvp = "${{ inputs.yaml-key-value-pairs }}"
+          with open('build_args.yml','w') as build_args_file:
+            build_args_file.write("${{ inputs.yaml-key-value-pairs }}")
 
-          if input_kvp and len(input_kvp) > 0:
-            build_args_kvp_dict = yaml.load("${{ inputs.yaml-key-value-pairs }}", yaml.SafeLoader)
-            
-            build_arg_output_value = "" 
-            for k,v in build_args_kvp_dict.items():
-              build_arg_output_value = build_arg_output_value + f"--build-arg {k}={v}"
-              
-            print(f"::set-output name=user-build-args::{build_arg_output_value}")
-          else:
-            print("No custom build args detected. Skipping prepare step.")
+          with open('build_args.yml','r') as build_args_file:
+            build_args_kvp_dict = yaml.load(build_args_file, yaml.SafeLoader)
+
+            if build_args_kvp_dict and len(build_args_kvp_dict) > 0:
+                build_arg_output_value = "" 
+                for k,v in build_args_kvp_dict.items():
+                  build_arg_output_value = build_arg_output_value + f"--build-arg {k}={v}"
+                  
+                print(f"::set-output name=user-build-args::{build_arg_output_value}")
+            else:
+              print("No custom build args detected. Skipping prepare step.")
 
   consume-yaml-kvp:
     runs-on: ubuntu-latest
