@@ -71,7 +71,7 @@ jobs:
             for k,v in build_args_kvp_dict.items():
               build_args_list.append(f"--build-arg {k}={v}")
               
-            print(f"::set-output name=user-build-args::{' '.join(build_arg_list)}")
+            print(f"::set-output name=user-build-args::{' '.join(build_args_list)}")
           else:
             print("No custom build args detected. Skipping prepare step.")
 
