@@ -13,4 +13,5 @@ jobs:
           "key1": "value1"
         }
       yaml-key-value-pairs: >
-        key2: value2
+        key2a: value2a
+        key2b: value2b
