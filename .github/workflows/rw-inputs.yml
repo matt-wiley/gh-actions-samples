@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     container: 
       image: mattwiley/ubuntu:latest
+      options: --user root
     steps:
       - name: Setup 
         run: |
