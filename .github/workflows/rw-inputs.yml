@@ -43,7 +43,7 @@ jobs:
         run: |
           import json, yaml, re 
           input = "${{ fromJSON(inputs.json-key-value-pairs) }}"
-          print("set-output name=kvp-as-json::" + json.dumps(yaml.load(input, yaml.SafeLoader)))
+          print("::set-output name=kvp-as-json::" + json.dumps(yaml.load(input, yaml.SafeLoader)))
 
   yaml-kvp:
     runs-on: ubuntu-latest
@@ -60,5 +60,5 @@ jobs:
         shell: python
         run: |
           import json, yaml
-          print("set-output name=kvp-as-json::" + json.dumps(yaml.load("${{ inputs.yaml-key-value-pairs }}", yaml.SafeLoader)))
+          print("::set-output name=kvp-as-json::" + json.dumps(yaml.load("${{ inputs.yaml-key-value-pairs }}", yaml.SafeLoader)))
 
