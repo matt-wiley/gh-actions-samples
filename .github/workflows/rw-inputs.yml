@@ -11,6 +11,8 @@ on:
 jobs:
   using-key-value-pairs:
     runs-on: ubuntu-latest
+    container: 
+      image: mattwiley/ubuntu:latest
     steps:
       - name: Setup 
         run: |
