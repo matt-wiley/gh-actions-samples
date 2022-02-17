@@ -12,6 +12,10 @@ jobs:
   using-key-value-pairs:
     runs-on: ubuntu-latest
     steps:
+      - name: Setup 
+        run: |
+          apt-get update
+          apt-get install -yq --no-install-recommends jq
       - name: "Transform KVP inputs"
         run: |
           echo "${{ toJSON(inputs.key-value-pairs) }}"
