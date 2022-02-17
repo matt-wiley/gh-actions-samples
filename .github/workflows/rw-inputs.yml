@@ -39,5 +39,5 @@ jobs:
         shell: python
         run: |
           import json, yaml
-          print(json.dumps(yaml.load(${{ inputs.yaml-key-value-pairs }}, yaml.SafeLoader)))
+          print(json.dumps(yaml.load("${{ inputs.yaml-key-value-pairs }}", yaml.SafeLoader)))
 
