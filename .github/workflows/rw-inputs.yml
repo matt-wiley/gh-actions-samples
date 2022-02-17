@@ -68,4 +68,4 @@ jobs:
     needs: yaml-kvp
     steps:
       - run: |
-          echo "${{ needs.yaml.kvp.outs.kvps }}"
+          echo "${{ needs.yaml-kvp.outputs.kvps }}"
