@@ -61,10 +61,8 @@ jobs:
         run: |
           import yaml, json
 
-          build_args_input = "${{ inputs.custom-build-args }}"
-
-          if build_args_input is not None:
-            build_args_kvp_dict = yaml.load("${{ inputs.custom-build-args }}", yaml.SafeLoader)
+          if len("${{ inputs.yaml-key-value-pairs }}") > 0:
+            build_args_kvp_dict = yaml.load("${{ inputs.yaml-key-value-pairs }}", yaml.SafeLoader)
             
             build_arg_output_value = "" 
             for k,v in build_args_kvp_dict.items():
