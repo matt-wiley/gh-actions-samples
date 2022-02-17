@@ -51,7 +51,7 @@ jobs:
       image: mattwiley/github_actions:python3.9-slim
       options: --user root
     outputs:
-      kvps: ${{ steps.tx-to-json.outputs.kvp-as-json }}
+      user-build-args: ${{ steps.tx-to-json.outputs.user-build-args }}
     steps:
       - name: Setup
         run: pip install PyYaml
@@ -59,13 +59,26 @@ jobs:
         id: tx-to-json
         shell: python
         run: |
-          import json, yaml
-          print("::set-output name=kvp-as-json::" + json.dumps(yaml.load("${{ inputs.yaml-key-value-pairs }}", yaml.SafeLoader)))
+          import yaml, json
 
+          build_args_input = "${{ inputs.custom-build-args }}"
+
+          if build_args_input is not None:
+            build_args_kvp_dict = yaml.load("${{ inputs.custom-build-args }}", yaml.SafeLoader)
+            
+            build_arg_output_value = "" 
+            for k,v in build_args_kvp_dict.items():
+              build_arg_output_value = build_arg_output_value + f"--build-arg {k}={v}"
+              
+            print(f"::set-output name=user-build-args::{build_arg_output_value}")
+          else:
+            print("No custom build args detected. Skipping prepare step.")
 
   consume-yaml-kvp:
     runs-on: ubuntu-latest
     needs: yaml-kvp
+    env:
+      USER_BUILD_ARGS: ${{ needs.yaml-kvp.outputs.user-build-args }}
     steps:
       - run: |
-          echo "${{ needs.yaml-kvp.outputs.kvps }}"
+          echo "${{ env.USER_BUILD_ARGS }}"
