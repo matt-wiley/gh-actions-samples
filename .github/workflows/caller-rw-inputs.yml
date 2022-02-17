@@ -9,4 +9,6 @@ jobs:
     uses: ./.github/workflows/rw-inputs.yml
     with:
       key-value-pairs: >
-        key1: value1
+        { 
+          "key1": "value1"
+        }
