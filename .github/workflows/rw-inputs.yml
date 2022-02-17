@@ -42,7 +42,7 @@ jobs:
         shell: python
         run: |
           import json, yaml, re 
-          input = re.sub(r"\n"," ", ${{ inputs.json-key-value-pairs }} ) 
+          input = re.sub(r"\n"," ", "${{ inputs.json-key-value-pairs }}"" ) 
           # input = re.sub(r"\s+"," ", input)
           print("set-output name=kvp-as-json::" + json.dumps(yaml.load(input, yaml.SafeLoader)))
 
