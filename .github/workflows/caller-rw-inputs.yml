@@ -1,0 +1,7 @@
+name: Caller Reusable Workflow Input Examples
+
+on: workflow_dispatch
+    
+jobs:
+  use-kvp:
+    uses: ./.github/workflows/rw-inputs.yml

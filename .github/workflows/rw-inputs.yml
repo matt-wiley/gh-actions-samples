@@ -1,0 +1,17 @@
+name: Reusable Workflow Input Examples
+
+on: 
+  workflow_call:
+    inputs:
+      key-value-pairs:
+        required: true
+        description: "Handling key value pairs."
+        type: string
+
+jobs:
+  using-key-value-pairs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Transform KVP inputs"
+        run: |
+          echo "${{ toJSON(inputs.key-value-pairs) }}"
